@@ -30,6 +30,7 @@ UserSchema.statics.findByUsernameAndPassword = async (email, password) => {
   const find = await UserModel.findOne({ email });
   if (find) {
     const sameCred = await hashCompare(password);
+    console.log(find);
     if (sameCred) return find;
     else return null;
   }

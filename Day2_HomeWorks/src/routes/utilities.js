@@ -16,8 +16,9 @@ const bacisAuth = async (req, res, next) => {
   } else {
     const credentials = req.headers.authorization.split(" ")[1];
     const [email, password] = atob(credentials).split(":");
+    console.log(email, password);
 
-    const user = await UserModel.findByEmailAndPass(email, password);
+    const user = await UserModel.findByUsernameAndPassword(email, password);
     if (!user) {
       console.log("You cant log in");
     } else {
