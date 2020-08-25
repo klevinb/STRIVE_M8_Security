@@ -1,0 +1,20 @@
+{
+  "name": "Day2_HomeWorks",
+  "version": "1.0.0",
+  "description": "/*\r     All about Basic Auth. \r     Authorized Back End\r     Create a Web Service that uses Basic Authentication\r     Use custom authorization.\r     Create in your database a \"user\" collection with username and password. Password must be encrypted in db.\r     User's schema:\r         - username\r         - password\r         - firstName\r         - lastName\r         - role [\"user\",\"admin\"]\r     Create a service test with the following endpoints:\r     - Register (username, password): creates a new valid user\r     - GET /users: returns list of users (admin only)\r     - Single user's data can be visualized/edited/deleted by himself/herself only\r */",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -r dotenv/config ./src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
