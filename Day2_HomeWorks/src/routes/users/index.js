@@ -1,12 +1,13 @@
 const express = require("express");
 const UserModel = require("./schema");
-const { bacisAuth } = require("../utilities");
+
+const { basicAuth } = require("../utilities");
 
 const router = express.Router();
 
-router.get("/", bacisAuth, async (req, res, next) => {
+router.get("/", basicAuth, async (req, res, next) => {
   try {
-    console.log("HERE");
+    res.send(req.user);
   } catch (error) {
     next(error);
   }
@@ -14,9 +15,9 @@ router.get("/", bacisAuth, async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const newStudent = new UserModel(req.body);
-    const response = await newStudent.save();
-    res.status(201).send(newStudent);
+    const newUser = new UserModel(req.body);
+    const response = await newUser.save();
+    res.status(201).send(newUser);
   } catch (error) {
     next(error);
   }

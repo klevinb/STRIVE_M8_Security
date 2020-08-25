@@ -1,35 +1,25 @@
-const bcrypt = require("bcrypt");
 const atob = require("atob");
 const UserModel = require("./users/schema");
 
-const hashPass = async (pw) => {
-  return await bcrypt.hash(pw, 8);
-};
-
-const hashCompare = async (pw) => {
-  return await bcrypt.compare(pw);
-};
-
-const bacisAuth = async (req, res, next) => {
+const basicAuth = async (req, res, next) => {
   if (!req.headers.authorization) {
-    console.log("Authorization missing on headers");
+    console.log("Authorization headers missing");
+    res.status(400).send("no");
   } else {
-    const credentials = req.headers.authorization.split(" ")[1];
-    const [email, password] = atob(credentials).split(":");
-    console.log(email, password);
-
-    const user = await UserModel.findByUsernameAndPassword(email, password);
+    const [username, password] = atob(
+      req.headers.authorization.split(" ")[1]
+    ).split(":");
+    const user = await UserModel.findByUsernameAndPassword(username, password);
     if (!user) {
-      console.log("You cant log in");
+      res.status(400).send("There is no user!");
     } else {
       req.user = user;
+
       next();
     }
   }
 };
 
 module.exports = {
-  hashPass,
-  hashCompare,
-  bacisAuth,
+  basicAuth,
 };

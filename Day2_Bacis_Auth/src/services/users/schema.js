@@ -1,7 +1,7 @@
-const { Schema } = require("mongoose")
-const mongoose = require("mongoose")
-const bcrypt = require("bcryptjs")
-const v = require("validator")
+const { Schema } = require("mongoose");
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const v = require("validator");
 
 const UserSchema = new Schema(
   {
@@ -26,7 +26,7 @@ const UserSchema = new Schema(
       validate: {
         validator: async (value) => {
           if (!v.isEmail(value)) {
-            throw new Error("Email is invalid")
+            throw new Error("Email is invalid");
           }
         },
       },
@@ -42,63 +42,64 @@ const UserSchema = new Schema(
       max: [65, "You are toooooo old!"],
       validate(value) {
         if (value < 0) {
-          throw new Error("Age must be a positive number!")
+          throw new Error("Age must be a positive number!");
         }
       },
     },
     professions: Array,
   },
   { timestamps: true }
-)
+);
 
-UserSchema.statics.findByCredentials = async (email, password) => {
-  const user = await UserModel.findOne({ email })
+UserSchema.statics.findByCredentials = async (username, password) => {
+  const user = await UserModel.findOne({ username });
 
   if (user) {
-    const isMatch = await bcrypt.compare(password, user.password)
-    if (isMatch) return user
-    else return null
-  } else return null
-}
+    console.log(user);
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) return user;
+    else return null;
+  } else return null;
+};
 
 UserSchema.methods.toJSON = function () {
-  const user = this
-  const userObject = user.toObject()
+  const user = this;
+  const userObject = user.toObject();
 
-  delete userObject.password
-  delete userObject.__v
+  delete userObject.password;
+  delete userObject.__v;
 
-  return userObject
-}
+  return userObject;
+};
 
 UserSchema.pre("save", async function (next) {
-  const user = this
+  const user = this;
 
   if (user.isModified("password")) {
-    user.password = await bcrypt.hash(user.password, 8)
+    user.password = await bcrypt.hash(user.password, 8);
   }
 
-  next()
-})
+  next();
+});
 
 UserSchema.post("validate", function (error, doc, next) {
   if (error) {
-    error.httpStatusCode = 400
-    next(error)
+    error.httpStatusCode = 400;
+    next(error);
   } else {
-    next()
+    next();
   }
-})
+});
 
 UserSchema.post("save", function (error, doc, next) {
   if (error.name === "MongoError" && error.code === 11000) {
-    error.httpStatusCode = 400
-    next(error)
+    error.httpStatusCode = 400;
+    next(error);
   } else {
-    next()
+    next();
   }
-})
+});
 
-const UserModel = mongoose.model("User", UserSchema)
+const UserModel = mongoose.model("User", UserSchema);
 
-module.exports = UserModel
+module.exports = UserModel;
