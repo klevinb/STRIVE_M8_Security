@@ -4,6 +4,9 @@ const generateTokens = async (user) => {
   try {
     const newAccessToken = await generateJWT({ _id: user._id });
     const newRefreshToken = await generateRefreshToken({ _id: user._id });
+
+    user.refreshTokens = [...user.refreshTokens, { token: newRefreshToken }];
+    await user.save();
     return { token: newAccessToken, refreshToken: newRefreshToken };
   } catch (error) {
     console.log(error);
@@ -15,7 +18,7 @@ const generateJWT = (payload) =>
     jwt.sign(
       payload,
       process.env.SECRET_KEY,
-      { expiresIn: "6h" },
+      { expiresIn: 900 },
       (error, token) => {
         if (error) reject(error);
         resolve(token);

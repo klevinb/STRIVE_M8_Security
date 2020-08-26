@@ -18,10 +18,20 @@ const authorize = async (req, res, next) => {
       } else res.status(401).send("Username/Password is not vaild");
     }
   } catch (error) {
-    res.status(401).send("You need to authenticate yourself!");
+    res.status(401).send(error);
+  }
+};
+
+const isAdmin = (req, res, next) => {
+  try {
+    if (req.user && req.user.role === "admin") next();
+    else res.status(403).send("Unauthorized");
+  } catch (error) {
+    console.log(error);
   }
 };
 
 module.exports = {
   authorize,
+  isAdmin,
 };

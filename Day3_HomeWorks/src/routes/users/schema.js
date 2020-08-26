@@ -25,6 +25,13 @@ const UserSchema = new Schema({
     enum: ["admin", "user"],
     default: "user",
   },
+  refreshTokens: [
+    {
+      token: {
+        type: String,
+      },
+    },
+  ],
 });
 
 UserSchema.pre("save", async function (next) {
@@ -44,6 +51,15 @@ UserSchema.statics.findByUsernameAndPassword = async (username, password) => {
   } else {
     return null;
   }
+};
+
+UserSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+  delete userObject.password;
+  delete userObject.__v;
+  delete userObject.refreshTokens;
+  return userObject;
 };
 
 const UserModel = mongoose.model("User", UserSchema);
