@@ -1,6 +1,6 @@
 const express = require("express");
 const UserModel = require("./schema");
-const { generateTokens } = require("../helpers/utilities");
+const { generateTokens, refreshTokens } = require("../helpers/utilities");
 const { authorize, isAdmin } = require("../helpers/middlewares");
 const passport = require("passport");
 
@@ -20,6 +20,17 @@ router.delete("/me", authorize, async (req, res, next) => {
       req.user.remove();
       res.send("Deleted");
     }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.put("/me", authorize, async (req, res, next) => {
+  try {
+    const updates = Object.keys(req.body);
+    updates.forEach((update) => (req.user[update] = req.body[update]));
+    await req.user.save();
+    res.status(200).send(req.user);
   } catch (error) {
     console.log(error);
   }
@@ -61,6 +72,29 @@ router.delete("/:id", authorize, isAdmin, async (req, res, next) => {
   }
 });
 
+router.post("/refreshTokens", async (req, res, next) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  try {
+    if (!refreshToken) {
+      res.status(404).send("Refresh token missing!");
+    } else {
+      const tokens = await refreshTokens(refreshToken);
+      res.cookie("accessToken", tokens.token, {
+        httpOnly: true,
+      });
+      res.cookie("refreshToken", tokens.refreshToken, {
+        httpOnly: true,
+        path: "/users/refreshTokens",
+      });
+
+      res.send();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.get(
   "/googleLogin",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -71,17 +105,15 @@ router.get(
   passport.authenticate("google"),
   async (req, res, next) => {
     try {
-      console.log(req.user);
-      // const { token, refreshToken } = req.user.tokens;
-      // res.cookie("accessToken", token, {
-      //   httpOnly: true,
-      // });
-      // res.cookie("refreshToken", refreshToken, {
-      //   httpOnly: true,
-      //   path: "/users/refreshToken",
-      // });
-      // res.status(200).redirect("http://localhost:3000/");
-      res.status(200).send("OK");
+      const { token, refreshToken } = req.user.tokens;
+      res.cookie("accessToken", token, {
+        httpOnly: true,
+      });
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        path: "/users/refreshToken",
+      });
+      res.status(200).redirect("http://localhost:3000/");
     } catch (error) {
       console.log(error);
       next(error);

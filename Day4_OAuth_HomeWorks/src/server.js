@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const UserRoutes = require("./routes/users/index");
+const cookieParser = require("cookie-parser");
 
 const passport = require("passport");
 
@@ -10,6 +11,7 @@ const authRouter = require("./routes/users/google");
 const server = express();
 const port = process.env.PORT;
 
+server.use(cookieParser());
 server.use(express.json());
 server.use(cors());
 server.use(passport.initialize());
