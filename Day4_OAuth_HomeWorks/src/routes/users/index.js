@@ -14,23 +14,26 @@ router.get("/me", authorize, async (req, res, next) => {
   }
 });
 
+router.put("/me", authorize, async (req, res, next) => {
+  try {
+    if (req.body._id) {
+      console.log(req.body._id);
+    }
+    const updates = Object.keys(req.body);
+    updates.forEach((update) => (req.user[update] = req.body[update]));
+    await req.user.save();
+    res.status(200).send(req.user);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.delete("/me", authorize, async (req, res, next) => {
   try {
     if (req.user) {
       req.user.remove();
       res.send("Deleted");
     }
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-router.put("/me", authorize, async (req, res, next) => {
-  try {
-    const updates = Object.keys(req.body);
-    updates.forEach((update) => (req.user[update] = req.body[update]));
-    await req.user.save();
-    res.status(200).send(req.user);
   } catch (error) {
     console.log(error);
   }

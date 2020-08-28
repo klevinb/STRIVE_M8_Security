@@ -54,7 +54,7 @@ const generateJWT = (payload) =>
     jwt.sign(
       payload,
       process.env.SECRET_KEY,
-      { expiresIn: 9 },
+      { expiresIn: 90 },
       (error, token) => {
         if (error) reject(error);
         resolve(token);
@@ -65,8 +65,13 @@ const generateJWT = (payload) =>
 const verifyJWT = (payload) =>
   new Promise((resolve, reject) => {
     jwt.verify(payload, process.env.SECRET_KEY, (error, credentials) => {
-      if (error) reject(error);
-      else resolve(credentials);
+      if (error) {
+        if (error.name === "TokenExpiredError") {
+          resolve();
+        } else {
+          reject(error);
+        }
+      } else resolve(credentials);
     });
   });
 
@@ -75,7 +80,7 @@ const generateRefreshToken = (payload) =>
     jwt.sign(
       payload,
       process.env.SECOND_SECRET_KEY,
-      { expiresIn: 9 },
+      { expiresIn: 180 },
       (error, token) => {
         if (error) reject(error);
         resolve(token);
