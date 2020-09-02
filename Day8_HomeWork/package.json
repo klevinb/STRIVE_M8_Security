@@ -1,0 +1,23 @@
+{
+  "name": "Day8_HomeWork",
+  "version": "1.0.0",
+  "description": "/*\r     Create your own Microservices-based-app\r     ---------------------------------------------------------------------------------------\r ?\r     You are working in the Netflix engineering team.\r     You goal is to implement the new Microservice structure to load and stream the videos back to the user.\r ?\r     The system should have:\r     - A load balancing service, that will be the endpoint receiving the requests\r     - N instances of a microservice that store and retrieve from the CDN the files\r ?\r     Notes:\r     - The system should be able to work with an arbitray number of microservices\r     - The system should exclude non-working microservices\r     - All the files should be stored in Cloudinary or Azure Storage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -r dotenv/config ./src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-list-endpoints": "^5.0.0",
+    "fs-extra": "^9.0.1",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
