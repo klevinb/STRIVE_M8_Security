@@ -3,10 +3,12 @@ require('dotenv').config();
 const listEndpoints = require('express-list-endpoints');
 const fetch = require('node-fetch');
 const netflixRoutes = require('./netflix');
+const azureBlob = require('./azure');
 
 const server = express();
 
 server.use('/netflix', netflixRoutes);
+server.use('/azure', azureBlob);
 
 console.log(listEndpoints(server));
 
