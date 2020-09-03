@@ -1,0 +1,71 @@
+body {
+  background-color: darkcyan;
+  height: 100vh;
+}
+
+.container {
+  padding: 50px;
+  height: 100vh;
+  overflow: hidden;
+}
+.container .row {
+  height: 100%;
+  overflow: hidden;
+}
+
+.users {
+  height: 90%;
+}
+
+.users .heading {
+  background: whitesmoke;
+  border-radius: 5px;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.usersList {
+  background: transparent !important;
+  overflow-x: auto;
+}
+.user {
+  padding: 10px;
+}
+
+.messages {
+  background: red;
+  height: 85%;
+}
+.messagePanel {
+  display: flex;
+  justify-content: space-between;
+}
+
+.messagePanel input {
+  width: 80%;
+}
+
+.chat-box {
+  background: lightgrey;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-body {
+  display: flex;
+  justify-content: center;
+}
+.modal-footer {
+  display: flex;
+  justify-content: center;
+}
