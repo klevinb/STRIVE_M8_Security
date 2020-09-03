@@ -1,8 +1,8 @@
 const http = require('http');
 const express = require('express');
-
 const socketio = require('socket.io');
 const mongoose = require('mongoose');
+const MessageModel = require('./routes/messages/schema');
 
 const server = express();
 const httpServer = http.createServer(server);
@@ -22,15 +22,24 @@ io.on('connection', (socket) => {
     io.emit('online', usernames);
   });
 
-  socket.on('sendMessage', (message) => {
-    const socketId = onlineUsers.find((user) => user.username === message.to);
+  socket.on('sendMessage', async (message) => {
+    const newMessage = new MessageModel(message);
+    const saveMessage = await newMessage.save();
 
-    io.to(socketId.id).emit('message', message);
+    const socketId = onlineUsers.find(
+      (user) => user.username === saveMessage.to
+    );
+
+    io.to(socketId.id).emit('message', {
+      from: saveMessage.from,
+      to: saveMessage.to,
+      text: saveMessage.text,
+    });
   });
 
-  socket.on('reportUser', (user) => {
-    onlineUsers.filter((user) => user.username !== user.name);
-  });
+  //   socket.on('reportUser', (user) => {
+  //     onlineUsers.filter((user) => user.username !== user.name);
+  //   });
 });
 
 const port = process.env.PORT;
