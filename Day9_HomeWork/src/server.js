@@ -40,6 +40,11 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', async () => {
     await removeUser(socket.id);
+
+    const users = await getUsers();
+    const usernames = users.map((user) => user.username);
+
+    io.emit('online', usernames);
   });
 });
 
