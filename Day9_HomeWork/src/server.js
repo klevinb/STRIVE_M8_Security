@@ -3,43 +3,44 @@ const express = require('express');
 const socketio = require('socket.io');
 const mongoose = require('mongoose');
 const MessageModel = require('./routes/messages/schema');
+const {
+  getUsers,
+  setUsername,
+  removeUser,
+} = require('./routes/users/utilities');
 
 const server = express();
 const httpServer = http.createServer(server);
 
 const io = socketio(httpServer);
 
-var onlineUsers = [];
-
 io.on('connection', (socket) => {
-  console.log(socket.id);
-
-  socket.on('setUsername', (username) => {
-    onlineUsers.push({ ...username, id: socket.id });
-
-    const usernames = onlineUsers.map((user) => user.username);
+  socket.on('setUsername', async ({ username }) => {
+    const users = await setUsername(username, socket.id);
+    const usernames = users.map((user) => user.username);
 
     io.emit('online', usernames);
   });
 
   socket.on('sendMessage', async (message) => {
+    const onlineUsers = await getUsers();
+
     const newMessage = new MessageModel(message);
     const saveMessage = await newMessage.save();
 
     const socketId = onlineUsers.find(
       (user) => user.username === saveMessage.to
     );
-
-    io.to(socketId.id).emit('message', {
+    io.to(socketId.socketId).emit('message', {
       from: saveMessage.from,
       to: saveMessage.to,
       text: saveMessage.text,
     });
   });
 
-  //   socket.on('reportUser', (user) => {
-  //     onlineUsers.filter((user) => user.username !== user.name);
-  //   });
+  socket.on('disconnect', async () => {
+    await removeUser(socket.id);
+  });
 });
 
 const port = process.env.PORT;

@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "fs-extra": "^9.0.1",
     "mongoose": "^5.10.2",
     "socket.io": "^2.3.0"
   },
