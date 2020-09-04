@@ -9,7 +9,19 @@ const cookieParser = require('cookie-parser');
 const server = express();
 server.use(cookieParser());
 server.use(express.json());
-server.use(cors());
+const whitelist = ['http://localhost:3000'];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
+server.use(cors(corsOptions));
 
 server.use('/users', usersRoutes);
 server.use('/list', citiesRoutes);

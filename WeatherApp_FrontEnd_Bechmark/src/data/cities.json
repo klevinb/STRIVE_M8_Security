@@ -1,0 +1,18 @@
+[
+  {
+    "name": "London, UK",
+    "img": "https://lp-cms-production.imgix.net/2019-06/55425108.jpg?auto=format&fit=crop&vib=20&sharp=10&ixlib=react-8.6.4"
+  },
+  {
+    "name": "Oslo, NO",
+    "img": "https://www.tripsavvy.com/thmb/zO6AEzx3wj7RENe2eYEyUvlqIoo=/3439x2579/smart/filters:no_upscale()/OsloCityHall-530259563-5675a3825f9b586a9e538e48.jpg"
+  },
+  {
+    "name": "Rome, IT",
+    "img": "https://andantetravels.co.uk/media/2348/rome-colosseum.jpg"
+  },
+  {
+    "name": "Tirana, AL",
+    "img": "https://lp-cms-production.imgix.net/2019-06/25e80d94ce0c6dfee0634a2b8598feae-tirana.jpg?auto=format&fit=crop&vib=20&sharp=10&ixlib=react-8.6.4"
+  }
+]

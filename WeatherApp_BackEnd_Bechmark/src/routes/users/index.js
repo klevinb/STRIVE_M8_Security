@@ -16,14 +16,10 @@ router.post('/login', async (req, res, next) => {
 
   const { token, refreshToken } = await generateTokens(user);
   res.cookie('accessToken', token, {
-    path: '/',
     httpOnly: true,
-    sameSite: true,
   });
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
-    path: '/users/refreshToken',
-    sameSite: true,
   });
 
   res.send({ token, refreshToken });

@@ -1,0 +1,127 @@
+.signupSection span {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.signupSection button:hover {
+  background-color: #616467;
+}
+
+.signupSection .terms {
+  color: #c1c3c6;
+  font-size: 10px;
+  text-align: center;
+}
+
+.signupSection .terms span {
+  color: #28a745;
+  font-size: 10px;
+}
+
+.signupPage {
+  display: flex;
+  justify-content: center;
+}
+
+.signupPage img {
+  height: 50px;
+  padding: 10px;
+  margin: 20px;
+}
+
+.signupContent {
+  width: 300px;
+  margin-top: 50px;
+  background: white;
+  padding: 40px;
+  border-radius: 5px;
+}
+
+.signupContent span {
+  text-align: center;
+  font-size: 13px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.signupContent #title {
+  font-size: 18px;
+}
+
+.signupContent hr {
+  border: 0;
+  clear: both;
+  display: block;
+  width: 96%;
+  background-color: lightgrey;
+  height: 1px;
+}
+
+.signupContent p {
+  margin: 10px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.signupContent button {
+  border-radius: 25px;
+  padding: 10px;
+  border: 0;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.signupContent #facebookBtn {
+  background-color: rgb(58, 88, 151);
+  border: 0;
+  padding: 10px;
+}
+.signupContent #facebookBtn:hover {
+  transform: scale(1.04);
+  background-color: rgb(107, 130, 177);
+  color: rgb(255, 255, 255);
+}
+
+.signupContent .form-label {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.signupContent #registerButton {
+  background-color: rgb(29, 185, 84);
+  color: white;
+  border: 0;
+}
+.signupContent #registerButton:hover {
+  transform: scale(1.04);
+  background-color: rgb(30, 215, 96);
+  color: rgb(255, 255, 255);
+}
+
+.signupSection div span:nth-last-of-type(1) {
+  font-weight: 500;
+  margin-top: 10px;
+}
+.signupSection div span:nth-last-of-type(1) span {
+  color: rgb(29, 185, 84);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.signupContent input {
+  font-size: 12px;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 13px;
+}
+
+#formBasicEmail:focus + .errorMessage,
+#formBasicEmailCheck:focus + .errorMessage,
+#formBasicPassword:focus + .errorMessage,
+#birthDay:focus + .errorMessage {
+  display: none;
+}

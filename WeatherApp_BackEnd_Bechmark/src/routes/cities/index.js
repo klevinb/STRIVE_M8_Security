@@ -10,7 +10,18 @@ const router = express.Router();
     DELETE /list/:id --> removes the city from the list
     GET /list --> returns the user's list
 */
-router.get('/weather/:city', async (req, res) => {});
+router.get('/weather/:city', async (req, res) => {
+  const resp = await axios(process.env.WEATHER_API + req.params.city, {
+    method: 'GET',
+    headers: {
+      'x-rapidapi-host': process.env.WEATHER_HOST,
+      'x-rapidapi-key': process.env.WEATHER_KEY,
+      'useQueryString': true,
+    },
+  });
+
+  res.send(resp.data);
+});
 
 router.get('/', isUser, async (req, res) => {
   res.send(req.user.cities);
@@ -22,12 +33,12 @@ router.post('/', isUser, async (req, res) => {
   const exists = cities.find((ct) => ct.city === city);
 
   if (exists) {
-    res.send(req.user.cities);
+    res.status(200).send(req.user.cities);
   } else {
     req.user.cities.push({ city });
+    await req.user.save();
+    res.status(201).send(req.user.cities);
   }
-  await req.user.save();
-  res.send(req.user.cities);
 });
 
 router.delete('/:id', isUser, async (req, res) => {
