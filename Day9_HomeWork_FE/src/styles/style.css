@@ -32,19 +32,45 @@ body {
 }
 .user {
   padding: 10px;
+  color: whitesmoke;
+  font-size: 25px;
+  font-weight: 700;
+  background-color: rgb(92, 100, 92);
+  margin-top: 5px;
+  text-align: center;
+}
+
+.selected {
+  background-color: lightgreen;
+}
+
+.user:hover {
+  background-color: lightgreen;
+  cursor: pointer;
 }
 
 .messages {
-  background: red;
   height: 85%;
 }
+
+.messages ul {
+  list-style: none;
+  padding: 0;
+  font-size: 20px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: 600;
+}
+
 .messagePanel {
   display: flex;
   justify-content: space-between;
 }
 
 .messagePanel input {
-  width: 80%;
+  width: 90%;
+}
+.messagePanel button {
+  width: 10%;
 }
 
 .chat-box {

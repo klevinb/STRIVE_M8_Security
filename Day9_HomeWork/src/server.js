@@ -15,6 +15,7 @@ const httpServer = http.createServer(server);
 const io = socketio(httpServer);
 
 io.on('connection', (socket) => {
+  console.log(socket.id);
   socket.on('setUsername', async ({ username }) => {
     const users = await setUsername(username, socket.id);
     const usernames = users.map((user) => user.username);
